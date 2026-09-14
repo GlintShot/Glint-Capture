@@ -2,7 +2,7 @@
 
 Device-free Flutter screenshot capture for Play Store and App Store assets.
 
-Part of the [Glint](https://github.com/Glint-Org) ecosystem. Soft-launch path: **Capture → Web → View**.
+Part of the [Glint](https://github.com/GlintShot) ecosystem. Soft-launch path: **Capture → Web → View**.
 
 ## Install
 
@@ -12,7 +12,7 @@ Part of the [Glint](https://github.com/Glint-Org) ecosystem. Soft-launch path: *
 dev_dependencies:
   glint_capture:
     git:
-      url: https://github.com/Glint-Org/Glint-Capture.git
+      url: https://github.com/GlintShot/Glint-Capture.git
       ref: v0.1.0
 ```
 
@@ -27,7 +27,7 @@ dev_dependencies:
 Then activate the CLI:
 
 ```bash
-dart pub global activate --source git https://github.com/Glint-Org/Glint-Capture.git
+dart pub global activate --source git https://github.com/GlintShot/Glint-Capture.git
 # or from a checkout: dart pub global activate --source path .
 ```
 

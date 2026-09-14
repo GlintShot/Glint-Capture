@@ -13,13 +13,13 @@ You are the AI. Developers do **not** paste API keys into Glint. You discover sc
 dev_dependencies:
   glint_capture:
     git:
-      url: https://github.com/Glint-Org/Glint-Capture.git
+      url: https://github.com/GlintShot/Glint-Capture.git
       ref: v0.1.0
 ```
 
 ```bash
 dart pub get
-dart pub global activate --source git https://github.com/Glint-Org/Glint-Capture.git
+dart pub global activate --source git https://github.com/GlintShot/Glint-Capture.git
 glint init
 ```
 

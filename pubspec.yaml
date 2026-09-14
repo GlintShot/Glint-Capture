@@ -1,9 +1,9 @@
 name: glint_capture
 description: Device-free Flutter screenshot capture for Play Store and App Store assets.
 version: 0.1.0
-homepage: https://github.com/Glint-Org/Glint-Capture
-repository: https://github.com/Glint-Org/Glint-Capture
-issue_tracker: https://github.com/Glint-Org/Glint-Capture/issues
+homepage: https://github.com/GlintShot/Glint-Capture
+repository: https://github.com/GlintShot/Glint-Capture
+issue_tracker: https://github.com/GlintShot/Glint-Capture/issues
 
 environment:
   sdk: ^3.8.0

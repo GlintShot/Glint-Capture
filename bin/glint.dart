@@ -293,7 +293,7 @@ String _normalizeStore(String raw) {
 }
 
 const _defaultConfig = '''# Glint configuration
-# Docs: https://github.com/Glint-Org/Glint-Capture
+# Docs: https://github.com/GlintShot/Glint-Capture
 #
 # Soft launch: capture ONE device for clean Glint Web frame mapping.
 # Add more devices later if you need size variants on disk.
