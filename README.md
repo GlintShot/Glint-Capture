@@ -109,16 +109,16 @@ import 'package:glint_capture/glint_capture.dart';
 
 void main() {
   glintScreenshots(
-    appName: 'MyApp',
-    tagline: 'Edit photos like a pro',
-    devices: GLINTDevices.playStoreDefaults,
+    appName: 'MyApp',               // → {AppName}.zip in Glint Web export
+    tagline: 'Edit photos like a pro', // → shown by Glint View
+    devices: [GLINTDevice.pixel9],   // soft launch: one device
+    store: 'play/phone',             // canonical Glint-Web store target
     rules: [
       GLINTRule.screen(
         name: 'home',
-        builder: (context) => const Scaffold(
-          body: Center(child: Text('Home Screen')),
-        ),
+        builder: (context) => const HomeScreen(), // real app widget, not a stub
       ),
+      // Add more: settings, feature, profile...
     ],
   );
 }
@@ -129,9 +129,13 @@ glint init && glint capture
 # or: flutter test test/glint_screenshots_test.dart
 ```
 
-Import the output folder into **Glint Web** → Templates → Export → Copy for Glint View.
+Import the output folder into **Glint Web** → pick a template → Export ZIP. The
+value of `appName` becomes the ZIP filename (`MyApp.zip`), so Glint Web can drop
+an upload-ready `fastlane/` tree without re-typing your app's name.
 
-**Tip:** Soft launch with **one device** (e.g. `pixel9`) so `session.json` maps cleanly onto Web frames. Multi-device captures still write all PNGs; session lists the primary device only.
+**Tip:** Soft launch with **one device** (e.g. `pixel9`) so `session.json` maps
+cleanly onto Web frames. Multi-device captures still write all PNGs; session
+lists the primary device only.
 
 ## Device presets
 
