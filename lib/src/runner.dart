@@ -17,6 +17,9 @@ class GLINTScreenshotConfig {
     required this.rules,
     this.theme,
     this.store = 'play',
+    this.appName,
+    this.tagline,
+    this.locales = const [],
   });
 
   final String outputDir;
@@ -24,6 +27,17 @@ class GLINTScreenshotConfig {
   final List<GLINTRule> rules;
   final ThemeData? theme;
   final String store;
+
+  /// App name written into `session.json` so Glint-Web can name the export
+  /// ZIP (e.g. `MyCoolApp.zip`). Mirrors `GLINTConfig.appName` / `glint.yaml
+  /// app_name`.
+  final String? appName;
+
+  /// One-line tagline written into `session.json` for Glint View.
+  final String? tagline;
+
+  /// BCP-47 locale tags written into `session.json` for Fastlane folders.
+  final List<String> locales;
 
   /// Build config from a glint.yaml file.
   factory GLINTScreenshotConfig.fromYaml(String path) {
@@ -33,6 +47,9 @@ class GLINTScreenshotConfig {
       devices: yaml.devices,
       rules: [],
       store: yaml.store,
+      appName: yaml.appName,
+      tagline: yaml.tagline,
+      locales: yaml.locales,
     );
   }
 }
@@ -44,6 +61,9 @@ void glintScreenshots({
   required List<GLINTRule> rules,
   ThemeData? theme,
   String store = 'play',
+  String? appName,
+  String? tagline,
+  List<String> locales = const [],
 }) {
   final config = GLINTScreenshotConfig(
     outputDir: outputDir,
@@ -51,6 +71,9 @@ void glintScreenshots({
     rules: rules,
     theme: theme,
     store: store,
+    appName: appName,
+    tagline: tagline,
+    locales: locales,
   );
 
   GLINTRunner(config).registerTests();
@@ -116,6 +139,9 @@ class GLINTRunner {
         final session = GLINTSession.fromDirectory(
           outputDir: config.outputDir,
           store: config.store,
+          app: config.appName,
+          tagline: config.tagline,
+          locales: config.locales,
         );
         await session.write(config.outputDir);
       } catch (_) {

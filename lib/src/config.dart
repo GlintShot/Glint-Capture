@@ -12,11 +12,23 @@ class GLINTConfig {
     required this.outputDir,
     required this.devices,
     required this.store,
+    this.appName,
+    this.tagline,
+    this.locales = const [],
   });
 
   final String outputDir;
   final List<GLINTDevice> devices;
   final String store;
+
+  /// App name surfaced in `session.json` → Glint-Web `{AppName}.zip`.
+  final String? appName;
+
+  /// One-line tagline surfaced in `session.json` → Glint View preview.
+  final String? tagline;
+
+  /// BCP-47 locales for per-locale capture / Fastlane folders.
+  final List<String> locales;
 
   /// Load config from a glint.yaml file.
   static GLINTConfig load(String path) {
@@ -34,13 +46,15 @@ class GLINTConfig {
 
     final outputDir = doc['output'] as String? ?? 'glint_screenshots';
     final store = _normalizeStore(doc['store'] as String? ?? 'play');
-
     final devices = _parseDevices(doc['devices'], rootDir: rootDir);
 
     return GLINTConfig(
       outputDir: outputDir,
       devices: devices,
       store: store,
+      appName: doc['app_name'] as String?,
+      tagline: doc['tagline'] as String?,
+      locales: _parseLocales(doc['locales']),
     );
   }
 
@@ -95,6 +109,13 @@ class GLINTConfig {
       'ios-tablet' => 'ios/ipad',
       _ => raw, // already canonical: play/phone, ios/iphone, etc.
     };
+  }
+
+  static List<String> _parseLocales(dynamic raw) {
+    if (raw == null) return const [];
+    if (raw is String) return [raw];
+    if (raw is List) return [for (final e in raw) e as String];
+    return const [];
   }
 
   /// Find glint.yaml by walking up from [startDir].

@@ -212,6 +212,9 @@ Future<void> _capture() async {
       final session = GLINTSession.fromDirectory(
         outputDir: outputDir,
         store: store,
+        app: yaml['app_name'] as String?,
+        tagline: yaml['tagline'] as String?,
+        locales: _parseLocalesField(yaml['locales']),
       );
       await session.write(outputDir);
       print('Wrote session.json (${session.screens.length} screen path(s)).');
@@ -292,6 +295,14 @@ String _normalizeStore(String raw) {
   };
 }
 
+/// Parse a glint.yaml `locales` field (string or list) into BCP-47 tags.
+List<String> _parseLocalesField(dynamic raw) {
+  if (raw == null) return const [];
+  if (raw is String) return [raw];
+  if (raw is List) return [for (final e in raw) e as String];
+  return const [];
+}
+
 const _defaultConfig = '''# Glint configuration
 # Docs: https://github.com/GlintShot/Glint-Capture
 #
@@ -316,25 +327,19 @@ devices:
 const _defaultScreens = '''import 'package:flutter/material.dart';
 import 'package:glint_capture/glint_capture.dart';
 
-/// Return real app screens (Scaffold / page widgets), not a nested MaterialApp.
-/// Soft launch: one device keeps session.json ordered for Glint Web frames.
+/// Your store screenshots. Replace the empty `rules` below with REAL screens
+/// from your app (HomeScreen, ProfileScreen, ...). Run `glint discover --auto`
+/// to scan lib/ for *Screen / *Page widgets and write real rules for you.
 ///
-/// Dialogs / bottom sheets: compose them in the tree, or open them in [pump].
-///
-/// Manual: edit rules below → glint capture
-/// Auto:   glint capture --auto   (discovers *Screen/*Page in lib/)
-/// Agent:  ask Cursor / Copilot to set up and capture screenshots
+/// Soft launch: one device (pixel9) keeps session.json ordered for Glint Web.
 void main() {
   glintScreenshots(
+    appName: 'MyApp',            // feeds {AppName}.zip in Glint Web export
+    tagline: 'Edit photos like a pro', // shown by Glint View
     devices: [GLINTDevice.pixel9],
+    store: 'play/phone',
     rules: [
-      GLINTRule.screen(
-        name: 'home',
-        builder: (context) => const Scaffold(
-          body: Center(child: Text('Home Screen')),
-        ),
-      ),
-      // Add more screens, dialogs, or sheets here...
+      // GLINTRule.screen(name: 'home', builder: (context) => const HomeScreen()),
     ],
   );
 }
