@@ -9,18 +9,36 @@ class GLINTSession {
     required this.screens,
     this.store = 'play',
     this.version = '1.0',
+    this.app,
+    this.tagline,
+    List<String>? locales,
     DateTime? exportedAt,
-  }) : exportedAt = exportedAt ?? DateTime.now().toUtc();
+  })  : locales = locales ?? const [],
+        exportedAt = exportedAt ?? DateTime.now().toUtc();
 
   final List<String> screens;
   final String store;
   final String version;
+
+  /// Human-readable app name that flows into the Glint-Web export ZIP
+  /// (e.g. `MyCoolApp.zip`) and the View store preview. Optional.
+  final String? app;
+
+  /// One-line tagline surfaced by Glint View. Optional.
+  final String? tagline;
+
+  /// BCP-47 locale tags for Fastlane folders. Empty = default en-US.
+  final List<String> locales;
+
   final DateTime exportedAt;
 
   Map<String, dynamic> toJson() => {
     'screens': screens,
     'store': store,
     'version': version,
+    if (app != null) 'app': app,
+    if (tagline != null) 'tagline': tagline,
+    if (locales.isNotEmpty) 'locales': locales,
     'exportedAt': exportedAt.toIso8601String(),
   };
 
@@ -58,6 +76,9 @@ class GLINTSession {
   static GLINTSession fromDirectory({
     required String outputDir,
     String store = 'play',
+    String? app,
+    String? tagline,
+    List<String>? locales,
     String? primaryDevice,
   }) {
     final dir = Directory(outputDir);
@@ -93,6 +114,9 @@ class GLINTSession {
     return GLINTSession(
       screens: screens,
       store: store,
+      app: app,
+      tagline: tagline,
+      locales: locales,
     );
   }
 

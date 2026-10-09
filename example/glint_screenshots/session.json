@@ -7,7 +7,7 @@
     "android/pixel9/profile.png",
     "android/pixel9/settings.png"
   ],
-  "store": "play",
+  "store": "play/phone",
   "version": "1.0",
   "exportedAt": "2026-08-29T07:32:26.218783Z"
 }
